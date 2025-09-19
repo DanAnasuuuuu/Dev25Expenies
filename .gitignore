@@ -1,4 +1,33 @@
-echo ".DS_Store" >> .gitignore
-git add .gitignore
-git commit -m "Ignore .DS_Store files"
-git push origin main
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# PHP
+vendor/
+composer.lock
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Uploads (if you want to exclude uploaded files from git)
+# public/uploads/
