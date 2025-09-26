@@ -2,7 +2,7 @@
 
 return [
     'host' => 'localhost',
-    'port' => '3307',
+    'port' => '3306',
     'database' => 'dev25expenses',
     'username' => 'root',  
     'password' => '',      

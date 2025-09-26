@@ -62,8 +62,11 @@ $router->get('/receipts', [ReceiptController::class, 'index'])
        ->get('/receipts/{id}/view', [ReceiptController::class, 'view'])
        ->get('/receipts/{id}/edit', [ReceiptController::class, 'edit'])
        ->post('/receipts/{id}/edit', [ReceiptController::class, 'edit'])
-       ->post('/receipts/{id}/delete', [ReceiptController::class, 'delete']);
+       ->post('/receipts/{id}/delete', [ReceiptController::class, 'delete'])
+       ->get('/expenses/export', [ExpenseController::class, 'exportCSV']);
+       
 
+       
 // Dashboard route
 $router->get('/', [HomeController::class, 'dashboard']);
 

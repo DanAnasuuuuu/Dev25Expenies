@@ -108,4 +108,30 @@ class ExpenseController {
             exit;
         }
     }
+
+    // this method download user's expenses as a csv file
+    // with S/N, category, amount, and date of transaction
+    public function exportCSV(): void 
+    {
+    $this->checkAuth();
+    $userId = $_SESSION['user']['id'];
+
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="expenses_export.csv"');
+
+    $expenses = $this->expense->getAllForUser($userId);
+
+    $output = fopen('php://output', 'w');
+    fputcsv($output, ['S/N', 'Category', 'Amount', 'Date']);
+    $s_number = 0;
+
+    foreach ($expenses as $row) {
+        $s_number += 1;
+        fputcsv($output, [$s_number, $row['category_name'], $row['amount'], $row['date']]);
+    }
+
+    fclose($output);
+    exit;
+    }
+
 }
