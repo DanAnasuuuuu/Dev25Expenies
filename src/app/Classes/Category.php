@@ -77,4 +77,25 @@ class Category {
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
     }
+
+    // the following function checks whether a category exist in our database
+    // It is useful before file upload
+    public function exists(int $categoryId): bool {
+        $sql = "SELECT COUNT(*) FROM categories WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$categoryId]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+
+    //the following function is use to get the name of a category from out database 
+    public function getByName(string $name): ?array {
+        $sql = "SELECT * FROM categories WHERE name = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$name]);
+        return $stmt->fetch() ?: null;
+    }
+
+
+
 }

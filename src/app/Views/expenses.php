@@ -35,6 +35,22 @@
             Export CSV
         </a>
 
+        <!-- import form/button -->
+        <form action="<?= $baseUrl ?>/expenses/import" method="post" enctype="multipart/form-data" class="d-inline">
+            <label class="btn btn-success mb-0" style="cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 16 12 20 8 16"/>
+                    <line x1="12" y1="4" x2="12" y2="20"/>
+                </svg>
+                Import CSV
+                <input type="file" name="csv_file" accept=".csv" hidden onchange="this.form.submit()">
+            </label>
+        </form>
+
+
+
     </div>
 
     <div class="expenses-filters">

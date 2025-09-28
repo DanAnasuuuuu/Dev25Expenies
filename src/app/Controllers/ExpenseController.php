@@ -113,25 +113,86 @@ class ExpenseController {
     // with S/N, category, amount, and date of transaction
     public function exportCSV(): void 
     {
-    $this->checkAuth();
-    $userId = $_SESSION['user']['id'];
+        $this->checkAuth();
+        $userId = $_SESSION['user']['id'];
+        
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="expenses_export.csv"');
+        
+        $expenses = $this->expense->getAllForUser($userId);
+        
+        $output = fopen('php://output', 'w');
+        fputcsv($output, ['S/N', 'Category', 'Amount', 'Date']);
+        $s_number = 0;
+        
+        foreach ($expenses as $row) {
+            $s_number += 1;
+            fputcsv($output, [$s_number, $row['category_name'], $row['amount'], $row['date']]);
+        }
+        
+        fclose($output);
+        exit;
+    }
+    
+    // this method download user's expenses as a csv file
+    // with S/N, category, amount, and date of transaction
+    public function importCSV(): void
+    {
+        $this->checkAuth();
+        $userId = $_SESSION['user']['id'];
 
-    header('Content-Type: text/csv');
-    header('Content-Disposition: attachment; filename="expenses_export.csv"');
+        if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
+            View::render('expenses', [
+                'error' => 'CSV upload failed.',
+                'categories' => $this->category->getAll()
+            ]);
+            return;
+        }
 
-    $expenses = $this->expense->getAllForUser($userId);
+        $file = fopen($_FILES['csv_file']['tmp_name'], 'r');
+        fgets($file); // Skip header safely
 
-    $output = fopen('php://output', 'w');
-    fputcsv($output, ['S/N', 'Category', 'Amount', 'Date']);
-    $s_number = 0;
+        $rowCount = 0;
+        $skipped = 0;
 
-    foreach ($expenses as $row) {
-        $s_number += 1;
-        fputcsv($output, [$s_number, $row['category_name'], $row['amount'], $row['date']]);
+        while (($line = fgets($file)) !== false) {
+            $row = str_getcsv($line);
+            if (count($row) < 4 || empty(array_filter($row))) {
+                $skipped++;
+                continue;
+            }
+
+            [$sn, $categoryName, $amount, $date] = array_map('trim', $row);
+
+            // Lookup category by name
+            $category = $this->category->getByName($categoryName);
+            if (!$category || !is_numeric($amount) || !\DateTime::createFromFormat('Y-m-d', $date)) {
+                $skipped++;
+                continue;
+            }
+
+            $this->expense->create([
+                'user_id' => $userId,
+                'category_id' => $category['id'],
+                'amount' => $amount,
+                'date' => $date
+            ]);
+
+            $rowCount++;
+        }
+
+        fclose($file);
+
+        View::render('expenses', [
+            'success' => "$rowCount expenses imported successfully. $skipped rows skipped.",
+            'expenses' => $this->expense->getAllForUser($userId),
+            'categories' => $this->category->getAll(),
+            'monthlyTotal' => $this->expense->getMonthlyTotal($userId),
+            'categoryTotals' => $this->expense->getTotalByCategory($userId)
+        ]);
     }
 
-    fclose($output);
-    exit;
-    }
+
+
 
 }

@@ -46,7 +46,8 @@ $router->get('/expenses', [ExpenseController::class, 'index'])
        ->post('/expenses', [ExpenseController::class, 'store'])
        ->post('/expenses/{id}/update', [ExpenseController::class, 'update'])
        ->post('/expenses/{id}/delete', [ExpenseController::class, 'delete'])
-       ->get('/expenses/export', [ExpenseController::class, 'exportCSV']);
+       ->get('/expenses/export', [ExpenseController::class, 'exportCSV'])
+       ->post('/expenses/import', [ExpenseController::class, 'importCSV']);
 
 // Category routes
 $router->get('/categories', [CategoryController::class, 'index'])
