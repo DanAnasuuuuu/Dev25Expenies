@@ -45,7 +45,8 @@ $router->get('/login', [AuthController::class, 'showLogin'])
 $router->get('/expenses', [ExpenseController::class, 'index'])
        ->post('/expenses', [ExpenseController::class, 'store'])
        ->post('/expenses/{id}/update', [ExpenseController::class, 'update'])
-       ->post('/expenses/{id}/delete', [ExpenseController::class, 'delete']);
+       ->post('/expenses/{id}/delete', [ExpenseController::class, 'delete'])
+       ->get('/expenses/export', [ExpenseController::class, 'exportCSV']);
 
 // Category routes
 $router->get('/categories', [CategoryController::class, 'index'])
@@ -62,8 +63,7 @@ $router->get('/receipts', [ReceiptController::class, 'index'])
        ->get('/receipts/{id}/view', [ReceiptController::class, 'view'])
        ->get('/receipts/{id}/edit', [ReceiptController::class, 'edit'])
        ->post('/receipts/{id}/edit', [ReceiptController::class, 'edit'])
-       ->post('/receipts/{id}/delete', [ReceiptController::class, 'delete'])
-       ->get('/expenses/export', [ExpenseController::class, 'exportCSV']);
+       ->post('/receipts/{id}/delete', [ReceiptController::class, 'delete']);
        
 
        
