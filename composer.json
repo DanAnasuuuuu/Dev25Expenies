@@ -1,0 +1,12 @@
+{
+    "name": "dan-anasu/dev25expenies",
+    "description": "dev25expenies",
+    "type": "project",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/app/"
+        }
+    }
+}
+

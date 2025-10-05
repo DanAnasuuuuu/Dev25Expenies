@@ -9,7 +9,6 @@ Thumbs.db
 
 # PHP
 vendor/
-composer.lock
 .env
 .env.local
 .env.production

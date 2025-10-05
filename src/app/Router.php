@@ -1,8 +1,6 @@
 <?php
 namespace App;
 
-require_once "Exceptions/RouteNotFoundException.php";
-require_once "Classes/View.php";
 
 use App\Exceptions\RouteNotFoundException;
 use App\Classes\View;

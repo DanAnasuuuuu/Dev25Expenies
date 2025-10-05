@@ -8,19 +8,8 @@ error_reporting(E_ALL);
 define('BASE_PATH', dirname(__DIR__));
 define('PUBLIC_PATH', __DIR__);
 
-// Require all necessary files
-require_once BASE_PATH . '/src/app/Router.php';
-require_once BASE_PATH . '/src/app/Classes/View.php';
-require_once BASE_PATH . '/src/app/Classes/Database.php';
-require_once BASE_PATH . '/src/app/Classes/User.php';
-require_once BASE_PATH . '/src/app/Classes/Expense.php';
-require_once BASE_PATH . '/src/app/Classes/Category.php';
-require_once BASE_PATH . '/src/app/Classes/Receipt.php';
-require_once BASE_PATH . '/src/app/Controllers/AuthController.php';
-require_once BASE_PATH . '/src/app/Controllers/ExpenseController.php';
-require_once BASE_PATH . '/src/app/Controllers/HomeController.php';
-require_once BASE_PATH . '/src/app/Controllers/CategoryController.php';
-require_once BASE_PATH . '/src/app/Controllers/ReceiptController.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+
 
 use App\Router;
 use App\Controllers\AuthController;
